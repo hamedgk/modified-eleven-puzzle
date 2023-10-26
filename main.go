@@ -3,7 +3,6 @@ package main
 import (
 	"eleven-puzzle/data_structures"
 	"fmt"
-	"sort"
 )
 
 const (
@@ -21,29 +20,16 @@ var examplePuzzle = [rows][cols]byte{
 }
 
 func main() {
-	// Flatten the 3x4 array into a 1D slice
-	var flattened []byte
-	for _, row := range examplePuzzle {
-		flattened = append(flattened, row[:]...)
-	}
-
-	// Sort the flattened slice
-	sort.Slice(flattened, func(i, j int) bool {
-		return flattened[i] < flattened[j]
-	})
-
-	// Convert the sorted 1D slice back to a 3x4 array
-	sortedArray := [rows][cols]byte{}
-	for i := 0; i < rows; i++ {
-		copy(sortedArray[i][:], flattened[i*cols:(i+1)*cols])
-	}
+	sortedArray := data_structures.SortPuzzle(examplePuzzle)
 
 	frontier := data_structures.NewQueue()
-	frontier.Enqueue(data_structures.Node{
-		Parent:    nil,
-		Direction: data_structures.None,
-		Puzzle:    data_structures.Puzzle{Buffer: examplePuzzle, BlankX: 0, BlankY: 2},
-	})
+	frontier.Enqueue(
+		data_structures.Node{
+			Parent:    nil,
+			Direction: data_structures.None,
+			Puzzle:    data_structures.FromBuffer(examplePuzzle),
+		},
+	)
 
 	for {
 		if frontier.IsEmpty() {
