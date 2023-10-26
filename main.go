@@ -30,8 +30,8 @@ func main() {
 			fmt.Println("empty frontier")
 			return
 		}
-		node, ok := frontier.Dequeue()
-		if ok {
+
+		if node, ok := frontier.Dequeue(); ok {
 			if node.IsGoal(sortedArray) {
 				ds.TraceBack(node)
 				return
