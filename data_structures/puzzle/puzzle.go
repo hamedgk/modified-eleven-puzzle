@@ -1,8 +1,9 @@
-package data_structures
+package puzzle
 
 import "sort"
 
 type PuzzleBuffer = [Rows][Cols]byte
+type Direction = uint8
 
 type Puzzle struct {
 	Buffer PuzzleBuffer
@@ -51,7 +52,7 @@ func (puzzle *Puzzle) MoveBlank(direction Direction) {
 	}
 }
 
-func SortPuzzle(buffer PuzzleBuffer) PuzzleBuffer{
+func SortPuzzle(buffer PuzzleBuffer) PuzzleBuffer {
 	var flattened []byte
 	for _, row := range buffer {
 		flattened = append(flattened, row[:]...)
@@ -66,4 +67,37 @@ func SortPuzzle(buffer PuzzleBuffer) PuzzleBuffer{
 		copy(sortedArray[i][:], flattened[i*Cols:(i+1)*Cols])
 	}
 	return sortedArray
+}
+
+func (puzzle *Puzzle) PossibleBlankMoves() []Direction {
+	switch {
+	case puzzle.BlankX == 0:
+		switch {
+		case puzzle.BlankY == 0:
+			return []uint8{Right, Down}
+		case puzzle.BlankY == Cols-1:
+			return []uint8{Left, Down}
+		default:
+			return []uint8{Right, Left, Down}
+		}
+	case puzzle.BlankX == Rows-1:
+		switch {
+		case puzzle.BlankY == 0:
+			return []uint8{Right, Up}
+		case puzzle.BlankY == Cols-1:
+			return []uint8{Left, Up}
+		default:
+			return []uint8{Right, Left, Up}
+		}
+	default:
+		switch {
+		case puzzle.BlankY == 0:
+			return []uint8{Right, Down, Up}
+		case puzzle.BlankY == Cols-1:
+			return []uint8{Left, Down, Up}
+		default:
+			return []uint8{Right, Left, Down, Up}
+		}
+
+	}
 }

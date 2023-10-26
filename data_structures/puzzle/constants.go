@@ -1,4 +1,4 @@
-package data_structures
+package puzzle
 
 const (
 	Left Direction = iota

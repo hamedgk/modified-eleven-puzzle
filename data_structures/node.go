@@ -1,15 +1,18 @@
 package data_structures
 
-import "fmt"
+import (
+	"fmt"
+	"eleven-puzzle/data_structures/puzzle"
+)
 
 type Node struct {
 	Parent    *Node
-	Direction Direction
-	Puzzle    Puzzle
+	Direction puzzle.Direction
+	Puzzle    puzzle.Puzzle
 }
 
-func (node *Node) Expand(queue Queue, explored map[PuzzleBuffer]bool) {
-	possibleMoves := node.Puzzle.possibleBlankMoves()
+func (node *Node) Expand(queue Queue, explored map[puzzle.PuzzleBuffer]bool) {
+	possibleMoves := node.Puzzle.PossibleBlankMoves()
 	for _, direction := range possibleMoves {
 		copyNode := *node
 		copyNode.Direction = direction
@@ -23,7 +26,7 @@ func (node *Node) Expand(queue Queue, explored map[PuzzleBuffer]bool) {
 	}
 }
 
-func (node *Node) IsGoal(buffer PuzzleBuffer) bool {
+func (node *Node) IsGoal(buffer puzzle.PuzzleBuffer) bool {
 	return node.Puzzle.Buffer == buffer
 }
 
@@ -35,13 +38,13 @@ func TraceBack(node Node) {
 
 	TraceBack(*node.Parent)
 	switch node.Direction {
-	case Up:
+	case puzzle.Up:
 		fmt.Print(" -> Up")
-	case Down:
-		fmt.Print(" -> Down")
-	case Right:
-		fmt.Print(" -> Right")
-	case Left:
+	case puzzle.Down:
+	     fmt.Print(" -> Down")
+	case puzzle.Right:
+	     fmt.Print(" -> Right")
+	case puzzle.Left:
 		fmt.Print(" -> Left")
 	default:
 		return

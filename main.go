@@ -2,25 +2,26 @@ package main
 
 import (
 	"eleven-puzzle/data_structures"
+	"eleven-puzzle/data_structures/puzzle"
 	"fmt"
 )
 
-var examplePuzzle = data_structures.PuzzleBuffer{
+var examplePuzzle = puzzle.PuzzleBuffer{
 	{1, 2, 11, 4},
 	{5, 255, 7, 8},
 	{9, 3, 10, 11},
 }
 
 func main() {
-	sortedArray := data_structures.SortPuzzle(examplePuzzle)
+	sortedArray := puzzle.SortPuzzle(examplePuzzle)
 
-	explored := map[data_structures.PuzzleBuffer]bool{}
+	explored := map[puzzle.PuzzleBuffer]bool{}
 	frontier := data_structures.NewQueue()
 	frontier.Enqueue(
 		data_structures.Node{
 			Parent:    nil,
-			Direction: data_structures.None,
-			Puzzle:    data_structures.FromBuffer(examplePuzzle),
+			Direction: puzzle.None,
+			Puzzle:    puzzle.FromBuffer(examplePuzzle),
 		},
 	)
 
