@@ -8,14 +8,18 @@ type Node struct {
 	Puzzle    Puzzle
 }
 
-func (node *Node) Expand(queue Queue) {
+func (node *Node) Expand(queue Queue, explored map[[Rows][Cols]byte]bool) {
 	possibleMoves := node.Puzzle.possibleBlankMoves()
 	for _, direction := range possibleMoves {
 		copyNode := *node
 		copyNode.Direction = direction
 		copyNode.Parent = node
 		copyNode.Puzzle.MoveBlank(direction)
+		if explored[copyNode.Puzzle.Buffer] {
+			continue
+		}
 		queue.Enqueue(copyNode)
+		explored[copyNode.Puzzle.Buffer] = true
 	}
 }
 

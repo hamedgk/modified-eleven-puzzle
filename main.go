@@ -14,14 +14,15 @@ var examplePuzzle = [rows][cols]byte{
 	//{1, 2, 255, 1},
 	//{4, 4, 3, 8},
 	//{6, 7, 7, 9},
-	{1, 2, 255, 4},
-	{5, 6, 7, 8},
+	{1, 2, 11, 4},
+	{5, 255, 7, 8},
 	{9, 3, 10, 11},
 }
 
 func main() {
 	sortedArray := data_structures.SortPuzzle(examplePuzzle)
 
+	explored := map[[rows][cols]byte]bool{}
 	frontier := data_structures.NewQueue()
 	frontier.Enqueue(
 		data_structures.Node{
@@ -42,7 +43,7 @@ func main() {
 				data_structures.TraceBack(node)
 				return
 			}
-			node.Expand(frontier)
+			node.Expand(frontier, explored)
 		}
 	}
 }
