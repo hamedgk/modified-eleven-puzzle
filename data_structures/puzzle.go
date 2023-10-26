@@ -1,8 +1,11 @@
 package data_structures
 
+import "sort"
+
 const (
-	Rows = 3
-	Cols = 4
+	Rows  = 3
+	Cols  = 4
+	Blank = 255
 )
 
 type Puzzle struct {
@@ -11,24 +14,16 @@ type Puzzle struct {
 	BlankY uint8
 }
 
-func NewPuzzle() Puzzle {
-	return Puzzle{}
-}
-
-func (puzzle *Puzzle) IsSorted() bool {
-	for i := 0; i < Rows; i++ {
-		for j := 1; j < Cols; j++ {
-			if puzzle.Buffer[i][j-1] > puzzle.Buffer[i][j] {
-				return false
-			}
-			if j == Cols-1 && i < Rows-1 {
-				if puzzle.Buffer[i][j] > puzzle.Buffer[i+1][0] {
-					return false
-				}
+func FromBuffer(buffer [Rows][Cols]byte) Puzzle {
+	for i, row := range buffer {
+		for j, column := range row {
+			if column == Blank {
+				x, y := uint8(i), uint8(j)
+				return Puzzle{buffer, x, y}
 			}
 		}
 	}
-	return true
+	return Puzzle{}
 }
 
 func (puzzle *Puzzle) MoveBlank(direction Direction) {
@@ -58,4 +53,21 @@ func (puzzle *Puzzle) MoveBlank(direction Direction) {
 		puzzle.Buffer[x][y] = temp
 		puzzle.BlankY--
 	}
+}
+
+func SortPuzzle(buffer [Rows][Cols]byte) [Rows][Cols]byte{
+	var flattened []byte
+	for _, row := range buffer {
+		flattened = append(flattened, row[:]...)
+	}
+
+	sort.Slice(flattened, func(i, j int) bool {
+		return flattened[i] < flattened[j]
+	})
+
+	sortedArray := [Rows][Cols]byte{}
+	for i := 0; i < Rows; i++ {
+		copy(sortedArray[i][:], flattened[i*Cols:(i+1)*Cols])
+	}
+	return sortedArray
 }
