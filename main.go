@@ -1,7 +1,7 @@
 package main
 
 import (
-	"eleven-puzzle/data_structures"
+	ds "eleven-puzzle/data_structures"
 	"eleven-puzzle/data_structures/puzzle"
 	"fmt"
 )
@@ -16,9 +16,9 @@ func main() {
 	sortedArray := puzzle.SortPuzzle(examplePuzzle)
 
 	explored := map[puzzle.PuzzleBuffer]bool{}
-	frontier := data_structures.NewQueue()
+	frontier := ds.NewQueue()
 	frontier.Enqueue(
-		data_structures.Node{
+		ds.Node{
 			Parent:    nil,
 			Direction: puzzle.None,
 			Puzzle:    puzzle.FromBuffer(examplePuzzle),
@@ -33,7 +33,7 @@ func main() {
 		node, ok := frontier.Dequeue()
 		if ok {
 			if node.IsGoal(sortedArray) {
-				data_structures.TraceBack(node)
+				ds.TraceBack(node)
 				return
 			}
 			node.Expand(frontier, explored)
