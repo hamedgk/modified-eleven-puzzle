@@ -8,7 +8,7 @@ type Node struct {
 	Puzzle    Puzzle
 }
 
-func (node *Node) Expand(queue Queue, explored map[[Rows][Cols]byte]bool) {
+func (node *Node) Expand(queue Queue, explored map[PuzzleBuffer]bool) {
 	possibleMoves := node.Puzzle.possibleBlankMoves()
 	for _, direction := range possibleMoves {
 		copyNode := *node
@@ -23,7 +23,7 @@ func (node *Node) Expand(queue Queue, explored map[[Rows][Cols]byte]bool) {
 	}
 }
 
-func (node *Node) IsGoal(buffer [Rows][Cols]byte) bool {
+func (node *Node) IsGoal(buffer PuzzleBuffer) bool {
 	return node.Puzzle.Buffer == buffer
 }
 

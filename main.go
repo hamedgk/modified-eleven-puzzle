@@ -5,15 +5,7 @@ import (
 	"fmt"
 )
 
-const (
-	rows = data_structures.Rows
-	cols = data_structures.Cols
-)
-
-var examplePuzzle = [rows][cols]byte{
-	//{1, 2, 255, 1},
-	//{4, 4, 3, 8},
-	//{6, 7, 7, 9},
+var examplePuzzle = data_structures.PuzzleBuffer{
 	{1, 2, 11, 4},
 	{5, 255, 7, 8},
 	{9, 3, 10, 11},
@@ -22,7 +14,7 @@ var examplePuzzle = [rows][cols]byte{
 func main() {
 	sortedArray := data_structures.SortPuzzle(examplePuzzle)
 
-	explored := map[[rows][cols]byte]bool{}
+	explored := map[data_structures.PuzzleBuffer]bool{}
 	frontier := data_structures.NewQueue()
 	frontier.Enqueue(
 		data_structures.Node{

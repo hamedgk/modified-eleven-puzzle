@@ -2,19 +2,15 @@ package data_structures
 
 import "sort"
 
-const (
-	Rows  = 3
-	Cols  = 4
-	Blank = 255
-)
+type PuzzleBuffer = [Rows][Cols]byte
 
 type Puzzle struct {
-	Buffer [Rows][Cols]byte
+	Buffer PuzzleBuffer
 	BlankX uint8
 	BlankY uint8
 }
 
-func FromBuffer(buffer [Rows][Cols]byte) Puzzle {
+func FromBuffer(buffer PuzzleBuffer) Puzzle {
 	for i, row := range buffer {
 		for j, column := range row {
 			if column == Blank {
@@ -55,7 +51,7 @@ func (puzzle *Puzzle) MoveBlank(direction Direction) {
 	}
 }
 
-func SortPuzzle(buffer [Rows][Cols]byte) [Rows][Cols]byte{
+func SortPuzzle(buffer PuzzleBuffer) PuzzleBuffer{
 	var flattened []byte
 	for _, row := range buffer {
 		flattened = append(flattened, row[:]...)

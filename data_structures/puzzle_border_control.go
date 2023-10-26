@@ -2,14 +2,6 @@ package data_structures
 
 type Direction = uint8
 
-const (
-	Left Direction = iota
-	Right
-	Up
-	Down
-	None
-)
-
 func (puzzle *Puzzle) possibleBlankMoves() []Direction {
 	switch {
 	case puzzle.BlankX == 0:
